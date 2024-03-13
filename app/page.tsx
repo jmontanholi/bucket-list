@@ -3,8 +3,8 @@ import { getSession } from "@auth0/nextjs-auth0";
 
 export default async function Home() {
 
-  const { user } = await getSession();
-  
+  const session  = await getSession();
+  const user = session?.user
   console.log(user)
   return (
     <main className="flex min-h-screen flex-col items-center gap-20 p-24">
@@ -24,6 +24,11 @@ export default async function Home() {
         <Link href='/api/auth/logout' className="hover:text-orange-600 border-2 hover:border-orange-300 py-2 px-5 rounded-md transition duration-250">
           Log Out
         </Link>
+        { user && (
+          Object.keys(user).map((el) => (
+            <p key={el}>{user[el]}</p>
+          ))
+        )}
       </div>
     </main>
   );
