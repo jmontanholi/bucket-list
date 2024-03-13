@@ -16,6 +16,9 @@ export default function Home() {
         <Link href='/api/auth/login' className="hover:text-orange-600 border-2 hover:border-orange-300 py-2 px-5 rounded-md transition duration-250">
           Log In
         </Link>
+        <Link href='/api/auth/logout' className="hover:text-orange-600 border-2 hover:border-orange-300 py-2 px-5 rounded-md transition duration-250">
+          Log Out
+        </Link>
       </div>
     </main>
   );
