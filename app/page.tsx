@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default async function Home() {
+export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center gap-20 p-24">
       <div className="flex flex-col align-center justify-center">
@@ -12,19 +12,19 @@ export default async function Home() {
           aim to do throughout your life
         </h4>
       </div>
-      <div className="w-2/6 flex flex-col items-center justify-center gap-5 text-center">
+      <div className="flex flex-col items-center justify-center gap-5 text-center">
         <p>
           If you want to create your own bucket list or explore suggestions you
           just need to click below!
         </p>
         <Link
           href="/signup"
-          className="w-2/6 text-center text-orange-600 bg-orange-100 py-2 px-5 rounded-md transition duration-250 border-2 border-transparent hover:border-orange-600"
+          className="w-32 text-center text-orange-600 bg-orange-100 py-2 px-5 rounded-md transition duration-250 border-2 border-transparent hover:border-orange-600"
         >
           Sign Up
         </Link>
       </div>
-      <div className="w-1/4 flex flex-col items-center justify-center gap-5 text-center">
+      <div className="flex flex-col items-center justify-center gap-5 text-center">
         <p>Already have an account?</p>
         <Link
           href="/api/auth/login"
