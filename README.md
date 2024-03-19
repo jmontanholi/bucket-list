@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Connect locally to database
+
+```psql "postgresql://username:password@host:port/database?options=project%3D<endpoint>"```
+
+Where you can just copy vercel default connection to PSQL and then change the end to have ```options=project%3D``` and paste the endpoint that is available in the database page
