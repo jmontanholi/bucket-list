@@ -37,6 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Connect locally to database
 
-```psql "postgresql://username:password@host:port/database?options=project%3D<endpoint>"```
+```psql "postgresql://username:password@host:port/verceldb?options=project%3D<endpoint>"```
 
 Where you can just copy vercel default connection to PSQL and then change the end to have ```options=project%3D``` and paste the endpoint that is available in the database page
+
+```psql "postgres://default:********@ep-shrill-dew-a4jcxcna.us-east-1.aws.neon.tech:5432/verceldb?options=project%3Dep-shrill-dew-a4jcxcna"```
+
+For more information see:
+https://github.com/vercel/examples/issues/697

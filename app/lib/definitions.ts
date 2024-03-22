@@ -17,12 +17,9 @@ export interface Database {
 }
 
 export interface UserTable {
-  id: ColumnType<number, null | undefined, never>;
+  id: string;
   username: string;
   email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
 }
 
 export type User = Selectable<UserTable>;
@@ -31,7 +28,7 @@ export type UserUpdate = Updateable<UserTable>;
 
 export interface ListTable {
   id: number;
-  user_id: number;
+  user_id: string;
   title: string;
   description: string;
   status: "TODO" | "IN PROGRESS" | "DONE";
@@ -46,7 +43,7 @@ export type ListUpdate = Updateable<ListTable>;
 export interface ItemTable {
   id: number;
   list_id: number;
-  created_by: number;
+  created_by: string;
   description: string;
   item_order: number;
   is_done: boolean;
@@ -59,7 +56,7 @@ export type ItemUpdate = Updateable<ItemTable>;
 export interface ItemSuggestionTable {
   item_id: number;
   list_id: number;
-  suggested_by_id: number;
+  suggested_by: string;
   accepted: boolean;
 }
 
@@ -69,7 +66,7 @@ export type ItemSuggestionUpdate = Updateable<ItemSuggestionTable>;
 
 export interface TagTable {
   id: number;
-  created_by_id: number;
+  created_by: string;
   title: string;
 }
 
