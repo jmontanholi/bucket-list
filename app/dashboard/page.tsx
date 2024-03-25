@@ -8,7 +8,7 @@ async function Dashboard() {
       <div className="flex flex-col align-center justify-center">Dashboard</div>
       {Object.keys(user).map((key) => {
         return (
-          <p>{user[key]}</p>
+          <p key={key}>{user[key]}</p>
         )
       })}
     </main>
