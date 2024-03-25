@@ -13,7 +13,7 @@ function Header({ user }: { user: object | undefined | null }) {
     "hover:text-orange-600 border-b-2 hover:border-orange-300 py-2 px-5 transition duration-250";
 
   return (
-    <header className="w-full flex itmes-center justify-between border-b-2 border-slate-200 py-3 px-5 fixed">
+    <header className="w-full flex itmes-center justify-between border-b-2 border-slate-200 py-3 px-5 fixed bg-white">
       <Link href="/">
         <Image src={bucket} alt="orange bucket" width={50} />
       </Link>

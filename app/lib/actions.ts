@@ -1,8 +1,5 @@
 "use server";
 
-import { z } from "zod";
-import bcrypt from "bcrypt";
-import { redirect } from "next/navigation";
 import { db } from "./database";
 import { User, NewUser } from "./definitions";
 
@@ -15,6 +12,8 @@ export async function createUser(user: NewUser) {
 }
 
 export async function userExists(user: User) {
+  if (!user) return "Provide all parameters";
+
   const result = await db
     .selectFrom("users")
     .selectAll()
@@ -25,6 +24,8 @@ export async function userExists(user: User) {
 }
 
 export async function findUser(user: User) {
+  if (!user) return "Provide all parameters";
+
   const result = await db
     .selectFrom("users")
     .selectAll()
