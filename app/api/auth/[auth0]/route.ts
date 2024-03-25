@@ -19,7 +19,7 @@ const afterCallback: AfterCallbackAppRoute = async (req, session) => {
 };
 
 export const GET = handleAuth({
-  async callback(req, ctx) {
+  async callback(req: any, ctx: any) {
     const res = (await handleCallback(req, ctx, {
       afterCallback,
     })) as NextResponse;
