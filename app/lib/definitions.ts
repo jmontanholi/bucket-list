@@ -27,7 +27,7 @@ export type NewUser = Insertable<UserTable>;
 export type UserUpdate = Updateable<UserTable>;
 
 export interface ListTable {
-  id: number;
+  id: ColumnType<number | null | number>;
   user_id: string;
   title: string;
   description: string;
@@ -41,7 +41,7 @@ export type NewList = Insertable<ListTable>;
 export type ListUpdate = Updateable<ListTable>;
 
 export interface ItemTable {
-  id: number;
+  id: ColumnType<number | null | number>;;
   list_id: number;
   created_by: string;
   description: string;
@@ -65,7 +65,7 @@ export type NewItemSuggestion = Insertable<ItemSuggestionTable>;
 export type ItemSuggestionUpdate = Updateable<ItemSuggestionTable>;
 
 export interface TagTable {
-  id: number;
+  id: ColumnType<number | null | number>;;
   created_by: string;
   title: string;
 }

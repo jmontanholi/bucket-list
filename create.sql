@@ -9,7 +9,7 @@ CREATE TABLE lists (
     user_id VARCHAR NOT NULL REFERENCES users (id),
     title VARCHAR(30) NOT NULL,
     description TEXT,
-    status VARCHAR(20) CHECK (status IN ('TODO', 'IN PROGRESS', 'DONE')) NOT NULL,
+    status VARCHAR(20) DEFAULT 'TODO' CHECK (status IN ('TODO', 'IN PROGRESS', 'DONE')) NOT NULL,
     is_public BOOLEAN NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
