@@ -11,7 +11,7 @@ export const createList = cache(async (user: User, list: NewList) => {
 
   const result = await db.insertInto("lists").values(list).execute();
 
-  console.log("result");
+  console.log("result", result);
 
   revalidatePath("/dashboard");
 });
