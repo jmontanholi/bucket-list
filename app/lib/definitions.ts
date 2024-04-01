@@ -31,9 +31,9 @@ export interface ListTable {
   user_id: string;
   title: string;
   description: string;
-  status: "TODO" | "IN PROGRESS" | "DONE";
+  status: ColumnType<"TODO" | "IN PROGRESS" | "DONE" | null | "TODO" | "IN PROGRESS" | "DONE">;
   is_public: boolean;
-  updated_at: string;
+  updated_at: ColumnType<Date | null | Date>;
 }
 
 export type List = Selectable<ListTable>;

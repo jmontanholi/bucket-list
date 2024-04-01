@@ -1,22 +1,35 @@
 import Link from "next/link";
 import clsx from "clsx";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-
-// user_id: string;
-// title: string;
-// description: string;
-// status: "TODO" | "IN PROGRESS" | "DONE";
-// is_public: boolean;
-// updated_at: string;
+import { createList } from "@/app/(controllers)/lists";
+import { redirect } from "next/navigation";
 
 const inputClass =
   "border-2 border-orange-200 rounded-md p-1 outline-none focus:border-orange-500";
 const submitClass = "bg-orange-500 py-1 px-3 rounded-md text-white";
 
-export default function CreateListModal() {
+export default function CreateListModal(user: any) {
   const handleSubmit = async (data: FormData) => {
     "use server";
-    console.log(data);
+
+    const userData = {
+      id: user.user.sub,
+      email: user.user.email,
+      username: user.user.nickname,
+    };
+
+    const listData = {
+      user_id: user.user.sub,
+      title: data.get("title") as string,
+      description: data.get("description") as string,
+      is_public: data.get("public") === "on",
+    };
+
+    const result = await createList(userData, listData);
+
+    if (!result.failed) {
+      redirect("/dashboard");
+    }
   };
 
   return (
@@ -55,7 +68,7 @@ export default function CreateListModal() {
         <div className="flex gap-2 self-start">
           <input
             className={clsx(
-              "appearance-none h-5 w-5 border-2 border-orange-200 rounded-md checked:bg-orange-500 checked:border-orange-500"
+              "cursor-pointer appearance-none h-5 w-5 border-2 border-orange-200 rounded-md checked:bg-orange-500 checked:border-orange-500"
             )}
             type="checkbox"
             name="public"

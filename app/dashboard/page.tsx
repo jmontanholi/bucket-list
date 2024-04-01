@@ -3,6 +3,7 @@ import { List as ListType } from "@/app/lib/definitions";
 import List from "@/app/dashboard/(components)/list";
 import CreateListButton from "@/app/dashboard/(components)/createListButton";
 import CreateListModal from "@/app/dashboard/(components)/createListModal";
+import { getLists } from "@/app/(controllers)/lists";
 
 export type Props = {
   searchParams: Record<string, string> | null | undefined;
@@ -12,7 +13,21 @@ async function Dashboard(props: Props) {
   const showModal = props.searchParams?.createListModal === "true";
   const session = await getSession();
   const user = session?.user;
-  const lists: ListType[] = [];
+  let lists: ListType[] = [];
+
+  try {
+    const userData = {
+      id: user?.sub,
+      email: user?.email,
+      username: user?.nickname,
+    };
+
+    const result = await getLists(userData);
+
+    lists = result.data;
+  } catch (err) {
+    console.log(err);
+  }
 
   return (
     <main className="min-w-screen min-h-screen flex flex-col items-center pt-[100px] pb-[24px] md:px-[24px]">
@@ -28,7 +43,7 @@ async function Dashboard(props: Props) {
                 lists.map((list) => {
                   return (
                     <li>
-                      <List />
+                      <List list={list} />
                     </li>
                   );
                 })
@@ -41,7 +56,7 @@ async function Dashboard(props: Props) {
           </div>
         </div>
       </div>
-      {showModal && <CreateListModal />}
+      {showModal && <CreateListModal user={user} />}
     </main>
   );
 }
