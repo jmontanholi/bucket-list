@@ -34,22 +34,22 @@ async function Dashboard(props: Props) {
   }
 
   return (
-    <main className="min-w-screen min-h-screen flex flex-col items-center pt-[100px] pb-[24px] md:px-[24px]">
-      <div className="w-2/4 flex flex-1 gap-10">
-        <div className="flex flex-col flex-[1_1_0%] gap-2">
+    <main className="w-screen h-screen flex flex-col items-center pt-[100px] pb-[24px] md:px-[24px]">
+      <div className="w-2/4 max-h-full flex flex-1 gap-10">
+        <div className="max-h-full flex flex-col flex-[1_1_0%] gap-2">
           <div className="flex justify-between items-center">
             <h2 className="text-xl">My Lists</h2>
             {lists.length > 0 && <CreateListButton />}
           </div>
           <div
             id="myLists"
-            className="flex flex-1 justify-center border-2 rounded-md"
+            className="max-h-full overflow-hidden flex flex-1 justify-center border-2 rounded-md"
           >
-            <ul className="w-full h-full">
+            <ul className="w-full max-h-full bg-gray-100/50 overflow-auto">
               {lists.length > 0 ? (
                 lists.map((list) => {
                   return (
-                    <li key={list.id}>
+                    <li key={list.id} className="bg-white">
                       <List list={list} expanded={expandedId === list.id} />
                     </li>
                   );
