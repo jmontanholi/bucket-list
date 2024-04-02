@@ -1,20 +1,45 @@
 import { List as ListType } from "@/app/lib/definitions";
+import Link from "next/link";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 type Props = {
   list: ListType;
+  expanded?: boolean;
 };
-async function List(props: Props) {
-  const { list } = props;
-  console.log(
-    "heyoh",
-    Object.entries(list).map((pair) => pair)
-  );
+
+function List(props: Props) {
+  const { list, expanded } = props;
+
   return (
-    <div className="flex gap-5 border-b-2 p-5">
-      <p>id: {list.id}</p>
-      <p>title: {list.title}</p>
-      <p>description: {list.description}</p>
-    </div>
+    <>
+      {expanded ? (
+        <Link href={`/dashboard`}>
+          <div className="flex flex-col gap-5 border-b-2 p-5">
+            <div className="flex gap-5 justify-between">
+              <p>{list.id}</p>
+              <p>{list.title}</p>
+              <ChevronUpIcon className="w-5" />
+            </div>
+            <div className="border-b-2">
+              <p>{list.description}</p>
+            </div>
+            <ul className="flex flex-col border-2 border-orange-500">
+              <li className="border-2 border-teal-300">list of items here</li>
+            </ul>
+          </div>
+        </Link>
+      ) : (
+        <Link href={`/dashboard?expanded=${list.id}`}>
+          <div className="flex flex-col gap-5 border-b-2 p-5">
+            <div className="flex gap-5 justify-between">
+              <p>{list.id}</p>
+              <p>{list.title}</p>
+              <ChevronDownIcon className="w-5" />
+            </div>
+          </div>
+        </Link>
+      )}
+    </>
   );
 }
 
