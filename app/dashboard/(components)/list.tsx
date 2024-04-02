@@ -1,6 +1,7 @@
 import { List as ListType } from "@/app/lib/definitions";
 import Link from "next/link";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
 
 type Props = {
   list: ListType;
@@ -19,8 +20,20 @@ function List(props: Props) {
               <p>{list.title}</p>
               <ChevronUpIcon className="w-5" />
             </div>
-            <div className="px-5">
+            <div className="flex justify-between px-5">
               <p>{list.description}</p>
+              <div className="flex gap-2 self-start">
+                <input
+                  className={clsx(
+                    "cursor-pointer appearance-none h-5 w-5 border-2 border-orange-200 rounded-md checked:bg-orange-500 checked:border-orange-500"
+                  )}
+                  type="checkbox"
+                  name="public"
+                  id="public"
+                  defaultChecked={list.is_public}
+                />
+                <p>Public</p>
+              </div>
             </div>
           </Link>
           <ul className="flex flex-col gap-1 p-5 border-y-2 bg-gray-100/50">
