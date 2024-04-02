@@ -1,7 +1,10 @@
+"use client";
+
 import { List as ListType } from "@/app/lib/definitions";
 import Link from "next/link";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 
 type Props = {
   list: ListType;
@@ -10,12 +13,30 @@ type Props = {
 
 function List(props: Props) {
   const { list, expanded } = props;
+  const router = useRouter();
+
+  const handleCustomLink = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    path: string
+  ) => {
+    const target = event?.target as HTMLElement;
+
+    if (target?.closest(".input")) return;
+    if (target?.closest(".customLink")) {
+      router.push(path);
+    }
+  };
 
   return (
     <>
       {expanded ? (
         <div className="flex flex-col gap-2 border-b-2 pb-5">
-          <Link href={`/dashboard`}>
+          <div
+            className="customLink cursor-pointer"
+            onClick={(e: React.MouseEvent<Element, MouseEvent>) => {
+              handleCustomLink(e, "/dashboard");
+            }}
+          >
             <div className="flex gap-5 justify-between p-5">
               <p>{list.title}</p>
               <ChevronUpIcon className="w-5" />
@@ -25,7 +46,7 @@ function List(props: Props) {
               <div className="flex gap-2 self-start">
                 <input
                   className={clsx(
-                    "cursor-pointer appearance-none h-5 w-5 border-2 border-orange-200 rounded-md checked:bg-orange-500 checked:border-orange-500"
+                    "input cursor-pointer appearance-none h-5 w-5 border-2 border-orange-200 rounded-md checked:bg-orange-500 checked:border-orange-500"
                   )}
                   type="checkbox"
                   name="public"
@@ -35,7 +56,7 @@ function List(props: Props) {
                 <p>Public</p>
               </div>
             </div>
-          </Link>
+          </div>
           <ul className="flex flex-col gap-1 p-5 border-y-2 bg-gray-100/50">
             <li className="border-2 rounded-md p-2 bg-white">
               list of items here

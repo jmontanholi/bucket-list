@@ -31,7 +31,9 @@ export interface ListTable {
   user_id: string;
   title: string;
   description: string;
-  status: ColumnType<"TODO" | "IN PROGRESS" | "DONE" | null | "TODO" | "IN PROGRESS" | "DONE">;
+  status: ColumnType<
+    "TODO" | "IN PROGRESS" | "DONE" | null | "TODO" | "IN PROGRESS" | "DONE"
+  >;
   is_public: boolean;
   updated_at: ColumnType<Date | null | Date>;
 }
@@ -41,7 +43,7 @@ export type NewList = Insertable<ListTable>;
 export type ListUpdate = Updateable<ListTable>;
 
 export interface ItemTable {
-  id: ColumnType<number | null | number>;;
+  id: ColumnType<number | null | number>;
   list_id: number;
   created_by: string;
   description: string;
@@ -65,7 +67,7 @@ export type NewItemSuggestion = Insertable<ItemSuggestionTable>;
 export type ItemSuggestionUpdate = Updateable<ItemSuggestionTable>;
 
 export interface TagTable {
-  id: ColumnType<number | null | number>;;
+  id: ColumnType<number | null | number>;
   created_by: string;
   title: string;
 }
