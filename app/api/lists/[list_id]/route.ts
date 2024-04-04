@@ -4,9 +4,9 @@ import { updateList, deleteList } from "@/app/(controllers)/lists";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { list_id: string } }
 ) {
-  const listId = parseInt(params.id);
+  const listId = parseInt(params.list_id);
   const body = await request.json();
   const updatedList = body.updatedList;
 

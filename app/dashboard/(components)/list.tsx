@@ -1,6 +1,6 @@
 "use client";
 
-import { List as ListType } from "@/app/lib/definitions";
+import { Item, List as ListType } from "@/app/lib/definitions";
 import Link from "next/link";
 import {
   ChevronDownIcon,
@@ -9,6 +9,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   TrashIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,7 @@ function List(props: Props) {
   const [editing, setEditing] = useState(false);
   const [editedList, setEditedList] = useState(list);
   const [isPublic, setIsPublic] = useState(list.is_public);
+  const [items, setItems] = useState<Item[]>([]);
 
   const handleCustomLink = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -95,6 +97,42 @@ function List(props: Props) {
     editedList.is_public = target.checked;
 
     return;
+  };
+
+  const handleAddItem = async () => {
+    // id: ColumnType<number | null | number>;
+    // list_id: number;
+    // created_by: string;
+    // description: string;
+    // item_order: number;
+    // is_done: boolean;
+    const newItem = {
+      list_id: list.id,
+      created_by: list.user_id,
+      description: "Placeholder",
+      item_order: items.length,
+      is_done: false,
+    };
+
+    try {
+      const response = await fetch(`/api/lists/${list.id}/items`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ item: newItem }),
+      });
+
+      const data = await response.json();
+
+      if (data.failed === 0) {
+        router.refresh();
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const editingButtonClass = "input w-6 text-blue-500 hover:text-blue-400";
@@ -185,14 +223,20 @@ function List(props: Props) {
             </div>
           </div>
           <ul className="flex flex-col gap-1 p-5 border-y-2 bg-gray-100/50">
-            <li className="border-2 rounded-md p-2 bg-white">
-              list of items here
-            </li>
-            <li className="border-2 rounded-md p-2 bg-white">
-              list of items here
-            </li>
-            <li className="border-2 rounded-md p-2 bg-white">
-              list of items here
+            {items.map((item: Item) => (
+              <li
+                className="flex gap-2 border-2 rounded-md p-2 bg-white"
+                key={item.id}
+              >
+                {item.description}
+              </li>
+            ))}
+            <li
+              onClick={handleAddItem}
+              className="flex gap-2 justify-center border-2 rounded-md p-2 bg-white cursor-pointer hover:bg-orange-100/25"
+            >
+              New Item
+              <PlusCircleIcon className="w-6 text-orange-400" />
             </li>
           </ul>
         </div>
