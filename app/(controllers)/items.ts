@@ -25,10 +25,14 @@ export const getItems = cache(async (listId: number) => {
 
 export const createItem = cache(async (item: NewItem) => {
   try {
-    await db.insertInto("items").values(item).execute();
+    const [createdItem] = await db
+      .insertInto("items")
+      .values(item)
+      .returningAll()
+      .execute();
 
     revalidatePath("/dashboard");
-    return { failed: 0, message: "List successfully created" };
+    return { failed: 0, message: "Item successfully created", createdItem };
   } catch (err) {
     console.log(err);
     return {

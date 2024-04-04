@@ -1,6 +1,6 @@
 "use client";
 
-import { Item, List as ListType } from "@/app/lib/definitions";
+import { Item as ItemType, List as ListType } from "@/app/lib/definitions";
 import Link from "next/link";
 import {
   ChevronDownIcon,
@@ -13,7 +13,8 @@ import {
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useOptimistic, useState } from "react";
+import Item from "./item";
 
 type Props = {
   list: ListType;
@@ -27,7 +28,11 @@ function List(props: Props) {
   const [editing, setEditing] = useState(false);
   const [editedList, setEditedList] = useState(list);
   const [isPublic, setIsPublic] = useState(list.is_public);
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<ItemType[]>([]);
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   const handleCustomLink = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -47,6 +52,7 @@ function List(props: Props) {
     setEditedList(list);
   };
 
+  // Lists routes ----------------------------------------------------
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(`/api/lists/${list.id}`, {
@@ -90,7 +96,7 @@ function List(props: Props) {
       console.log(err);
     }
   };
-
+  // End of lists routes ----------------------------------------------
   const handlePublic = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e?.target as HTMLInputElement;
     setIsPublic(target.checked);
@@ -99,13 +105,8 @@ function List(props: Props) {
     return;
   };
 
+  // Items routes ------------------------------------------------------
   const handleAddItem = async () => {
-    // id: ColumnType<number | null | number>;
-    // list_id: number;
-    // created_by: string;
-    // description: string;
-    // item_order: number;
-    // is_done: boolean;
     const newItem = {
       list_id: list.id,
       created_by: list.user_id,
@@ -126,6 +127,7 @@ function List(props: Props) {
       const data = await response.json();
 
       if (data.failed === 0) {
+        setItems([...items, data.createdItem]);
         router.refresh();
       } else {
         console.log(data.message);
@@ -134,6 +136,29 @@ function List(props: Props) {
       console.log(err);
     }
   };
+
+  const fetchItems = async () => {
+    try {
+      const response = await fetch(`/api/lists/${list.id}/items`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.failed === 0) {
+        setItems(data.data);
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // End of items routes ----------------------------------------------------
 
   const editingButtonClass = "input w-6 text-blue-500 hover:text-blue-400";
 
@@ -223,12 +248,12 @@ function List(props: Props) {
             </div>
           </div>
           <ul className="flex flex-col gap-1 p-5 border-y-2 bg-gray-100/50">
-            {items.map((item: Item) => (
+            {items.map((item: ItemType) => (
               <li
                 className="flex gap-2 border-2 rounded-md p-2 bg-white"
                 key={item.id}
               >
-                {item.description}
+                <Item item={item} />
               </li>
             ))}
             <li
