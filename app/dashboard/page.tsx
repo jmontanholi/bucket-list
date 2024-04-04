@@ -39,7 +39,7 @@ async function Dashboard(props: Props) {
         <div className="max-h-full flex flex-col flex-[1_1_0%] gap-2">
           <div className="flex justify-between items-center">
             <h2 className="text-xl">My Lists</h2>
-            {lists.length > 0 && <CreateListButton />}
+            <CreateListButton />
           </div>
           <div
             id="myLists"

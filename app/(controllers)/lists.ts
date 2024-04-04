@@ -78,3 +78,18 @@ export const updateList = cache(
     }
   }
 );
+
+export const deleteList = cache(async (listId: number) => {
+  try {
+    await db.deleteFrom("lists").where("id", "=", listId).execute();
+
+    revalidatePath("/dashboard");
+    return { failed: 0, message: "List successfully created" };
+  } catch (err) {
+    console.log(err);
+    return {
+      failed: 1,
+      message: err,
+    };
+  }
+});

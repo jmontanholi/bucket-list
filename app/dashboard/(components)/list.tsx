@@ -8,6 +8,7 @@ import {
   PencilSquareIcon,
   CheckCircleIcon,
   XCircleIcon,
+  TrashIcon,
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -35,6 +36,7 @@ function List(props: Props) {
     if (target?.closest(".input")) return;
     if (target?.closest(".customLink")) {
       router.push(path);
+      setEditing(false);
     }
   };
 
@@ -66,6 +68,27 @@ function List(props: Props) {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/lists/${list.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.failed === 0) {
+        router.refresh();
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handlePublic = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e?.target as HTMLInputElement;
     setIsPublic(target.checked);
@@ -74,7 +97,7 @@ function List(props: Props) {
     return;
   };
 
-  const editingButtonClass = "input w-6 text-orange-500 hover:text-orange-400";
+  const editingButtonClass = "input w-6 text-blue-500 hover:text-blue-400";
 
   return (
     <>
@@ -114,10 +137,16 @@ function List(props: Props) {
                     />
                   </>
                 ) : (
-                  <PencilSquareIcon
-                    onClick={editList}
-                    className={editingButtonClass}
-                  />
+                  <>
+                    <PencilSquareIcon
+                      onClick={editList}
+                      className={editingButtonClass}
+                    />
+                    <TrashIcon
+                      onClick={handleDelete}
+                      className="w-5 text-red-500 hover:text-red-400"
+                    />
+                  </>
                 )}
                 <ChevronUpIcon className="w-5" />
               </span>
@@ -173,10 +202,16 @@ function List(props: Props) {
             <div className="flex gap-5 justify-between">
               <p className="flex-1">{list.title}</p>
               <span className="flex justify-end gap-4 flex-[0.25_0.25_0%]">
-                <PencilSquareIcon
-                  onClick={editList}
-                  className={editingButtonClass}
-                />
+                <>
+                  <PencilSquareIcon
+                    onClick={editList}
+                    className={editingButtonClass}
+                  />
+                  <TrashIcon
+                    onClick={handleDelete}
+                    className="w-5 text-red-500 hover:text-red-400"
+                  />
+                </>
                 <ChevronDownIcon className="w-5" />
               </span>
             </div>
