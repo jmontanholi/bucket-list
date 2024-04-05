@@ -17,11 +17,12 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { item_id: string } }
+  { params }: { params: { list_id: string; item_id: string } }
 ) {
+  const listId = parseInt(params.list_id);
   const itemId = parseInt(params.item_id);
 
-  const result = await deleteItem(itemId);
+  const result = await deleteItem(listId, itemId);
 
   return NextResponse.json(result);
 }

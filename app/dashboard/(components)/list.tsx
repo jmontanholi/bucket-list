@@ -15,6 +15,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import Item from "./item";
+import Loader from "@/app/components/loader";
 
 type Props = {
   list: ListType;
@@ -29,6 +30,7 @@ function List(props: Props) {
   const [editedList, setEditedList] = useState(list);
   const [isPublic, setIsPublic] = useState(list.is_public);
   const [items, setItems] = useState<ItemType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchItems();
@@ -54,6 +56,7 @@ function List(props: Props) {
 
   // Lists routes ----------------------------------------------------
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/lists/${list.id}`, {
         method: "POST",
@@ -68,6 +71,7 @@ function List(props: Props) {
       if (data.failed === 0) {
         router.refresh();
         setEditing(false);
+        setLoading(false);
       } else {
         console.log(data.message);
       }
@@ -77,6 +81,7 @@ function List(props: Props) {
   };
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/lists/${list.id}`, {
         method: "DELETE",
@@ -88,6 +93,7 @@ function List(props: Props) {
       const data = await response.json();
 
       if (data.failed === 0) {
+        setLoading(false);
         router.refresh();
       } else {
         console.log(data.message);
@@ -107,6 +113,7 @@ function List(props: Props) {
 
   // Items routes ------------------------------------------------------
   const handleAddItem = async () => {
+    setLoading(true);
     try {
       const responseOne = await fetch(`/api/random-item`, {
         method: "GET",
@@ -137,6 +144,7 @@ function List(props: Props) {
 
       if (data.failed === 0) {
         setItems([...items, data.createdItem]);
+        setLoading(false);
         router.refresh();
       } else {
         console.log(data.message);
@@ -147,6 +155,7 @@ function List(props: Props) {
   };
 
   const fetchItems = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/lists/${list.id}/items`, {
         method: "GET",
@@ -159,6 +168,7 @@ function List(props: Props) {
 
       if (data.failed === 0) {
         setItems(data.data);
+        setLoading(false);
       } else {
         console.log(data.message);
       }
@@ -173,6 +183,7 @@ function List(props: Props) {
 
   return (
     <>
+      {loading && <Loader />}
       {expanded ? (
         <div className="flex flex-col gap-2 border-b-2 pb-5">
           <div
@@ -262,7 +273,11 @@ function List(props: Props) {
                 className="flex gap-2 border-2 rounded-md p-2 bg-white"
                 key={item.id}
               >
-                <Item refreshData={fetchItems} item={item} />
+                <Item
+                  refreshData={fetchItems}
+                  setLoading={setLoading}
+                  item={item}
+                />
               </li>
             ))}
             <li

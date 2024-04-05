@@ -49,7 +49,7 @@ async function Dashboard(props: Props) {
               {lists.length > 0 ? (
                 lists.map((list) => {
                   return (
-                    <li key={list.id} className="bg-white">
+                    <li key={list.id} className="bg-white relative">
                       <List list={list} expanded={expandedId === list.id} />
                     </li>
                   );

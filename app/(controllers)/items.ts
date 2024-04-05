@@ -2,6 +2,7 @@ import { cache } from "react";
 import { db } from "@/app/lib/database";
 import { ItemUpdate, NewItem } from "../lib/definitions";
 import { revalidatePath } from "next/cache";
+import { reorderListItems } from "./lists";
 
 export const getItems = cache(async (listId: number) => {
   try {
@@ -68,10 +69,11 @@ export const updateItem = cache(
   }
 );
 
-export const deleteItem = cache(async (itemId: number) => {
+export const deleteItem = cache(async (listId: number, itemId: number) => {
   try {
     await db.deleteFrom("items").where("id", "=", itemId).execute();
 
+    await reorderListItems(listId);
     revalidatePath("/dashboard");
     return { failed: 0, message: "Item successfully deleted" };
   } catch (err) {

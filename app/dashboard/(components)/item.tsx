@@ -10,16 +10,16 @@ import {
   TrashIcon,
   PlusCircleIcon,
 } from "@heroicons/react/20/solid";
-import { useRouter } from "next/navigation";
+import Loader from "@/app/components/loader";
 
 type Props = {
   item: ItemType;
   refreshData: Function;
+  setLoading: Function;
 };
 
 export default function Item(props: Props) {
-  const router = useRouter();
-  const { item, refreshData } = props;
+  const { item, refreshData, setLoading } = props;
   const [editing, setEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(item);
   const [done, setDone] = useState(item.is_done);
@@ -32,6 +32,7 @@ export default function Item(props: Props) {
   };
 
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `/api/lists/${item.list_id}/items/${item.id}`,
@@ -48,6 +49,7 @@ export default function Item(props: Props) {
 
       if (data.failed === 0) {
         await refreshData();
+        setLoading(false);
         setEditing(false);
       } else {
         console.log(data.message);
@@ -58,6 +60,7 @@ export default function Item(props: Props) {
   };
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `/api/lists/${item.list_id}/items/${item.id}`,
@@ -72,6 +75,7 @@ export default function Item(props: Props) {
       const data = await response.json();
 
       if (data.failed === 0) {
+        setLoading(false);
         refreshData();
       } else {
         console.log(data.message);
@@ -92,7 +96,7 @@ export default function Item(props: Props) {
   };
 
   return (
-    <div className="w-full flex items-center justify-between gap-2">
+    <div className="relative w-full flex items-center justify-between gap-2">
       <div className="flex flex-1 items-center gap-2">
         <input
           type="checkbox"

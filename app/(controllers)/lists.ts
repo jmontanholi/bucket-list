@@ -3,6 +3,7 @@ import { db } from "@/app/lib/database";
 import { NewList, ListUpdate, User } from "@/app/lib/definitions";
 import { userExists } from "./users";
 import { revalidatePath } from "next/cache";
+import { getItems } from "./items";
 
 export const getLists = cache(async (user: User) => {
   if (!(await userExists(user)))
@@ -85,6 +86,34 @@ export const deleteList = cache(async (listId: number) => {
 
     revalidatePath("/dashboard");
     return { failed: 0, message: "List successfully deleted" };
+  } catch (err) {
+    console.log(err);
+    return {
+      failed: 1,
+      message: err,
+    };
+  }
+});
+
+export const reorderListItems = cache(async (listId: number) => {
+  try {
+    const result = await getItems(listId);
+    const items = result.data;
+
+    for (let i = 0, length = items.length; i < length; i++) {
+      const item = items[i];
+      const index = i;
+      const temp = { ...item, item_order: index };
+
+      await db
+        .updateTable("items")
+        .set(temp)
+        .where("id", "=", item.id)
+        .returningAll()
+        .execute();
+    }
+
+    return { failed: 0, message: "Item successfully deleted" };
   } catch (err) {
     console.log(err);
     return {
