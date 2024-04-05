@@ -4,23 +4,6 @@ import { NewList, ListUpdate, User } from "@/app/lib/definitions";
 import { userExists } from "./users";
 import { revalidatePath } from "next/cache";
 
-export const createList = cache(async (user: User, list: NewList) => {
-  if (!(await userExists(user))) return { failed: 1, message: "Invalid user" };
-
-  try {
-    await db.insertInto("lists").values(list).execute();
-
-    revalidatePath("/dashboard");
-    return { failed: 0, message: "List successfully created" };
-  } catch (err) {
-    console.log(err);
-    return {
-      failed: 1,
-      message: err,
-    };
-  }
-});
-
 export const getLists = cache(async (user: User) => {
   if (!(await userExists(user)))
     return { failed: 1, message: "Invalid user", data: [] };
@@ -40,6 +23,23 @@ export const getLists = cache(async (user: User) => {
       failed: 1,
       message: err,
       data: [],
+    };
+  }
+});
+
+export const createList = cache(async (user: User, list: NewList) => {
+  if (!(await userExists(user))) return { failed: 1, message: "Invalid user" };
+
+  try {
+    await db.insertInto("lists").values(list).execute();
+
+    revalidatePath("/dashboard");
+    return { failed: 0, message: "List successfully created" };
+  } catch (err) {
+    console.log(err);
+    return {
+      failed: 1,
+      message: err,
     };
   }
 });
@@ -84,7 +84,7 @@ export const deleteList = cache(async (listId: number) => {
     await db.deleteFrom("lists").where("id", "=", listId).execute();
 
     revalidatePath("/dashboard");
-    return { failed: 0, message: "List successfully created" };
+    return { failed: 0, message: "List successfully deleted" };
   } catch (err) {
     console.log(err);
     return {

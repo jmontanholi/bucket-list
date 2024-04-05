@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useOptimistic, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Item from "./item";
 
 type Props = {
@@ -107,16 +107,25 @@ function List(props: Props) {
 
   // Items routes ------------------------------------------------------
   const handleAddItem = async () => {
-    const newItem = {
-      list_id: list.id,
-      created_by: list.user_id,
-      description: "Placeholder",
-      item_order: items.length,
-      is_done: false,
-    };
-
     try {
-      const response = await fetch(`/api/lists/${list.id}/items`, {
+      const responseOne = await fetch(`/api/random-item`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const randomIdea = await responseOne.json();
+
+      const newItem = {
+        list_id: list.id,
+        created_by: list.user_id,
+        description: randomIdea,
+        item_order: items.length,
+        is_done: false,
+      };
+
+      const responseTwo = await fetch(`/api/lists/${list.id}/items`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,7 +133,7 @@ function List(props: Props) {
         body: JSON.stringify({ item: newItem }),
       });
 
-      const data = await response.json();
+      const data = await responseTwo.json();
 
       if (data.failed === 0) {
         setItems([...items, data.createdItem]);
@@ -207,11 +216,11 @@ function List(props: Props) {
                     />
                     <TrashIcon
                       onClick={handleDelete}
-                      className="w-5 text-red-500 hover:text-red-400"
+                      className="w-6 text-red-500 hover:text-red-400"
                     />
                   </>
                 )}
-                <ChevronUpIcon className="w-5" />
+                <ChevronUpIcon className="w-6" />
               </span>
             </div>
             <div className="flex justify-between px-5 gap-1">
@@ -253,7 +262,7 @@ function List(props: Props) {
                 className="flex gap-2 border-2 rounded-md p-2 bg-white"
                 key={item.id}
               >
-                <Item item={item} />
+                <Item refreshData={fetchItems} item={item} />
               </li>
             ))}
             <li
@@ -269,7 +278,7 @@ function List(props: Props) {
         <Link href={`/dashboard?expanded=${list.id}`}>
           <div className="flex flex-col gap-5 border-b-2 p-5">
             <div className="flex gap-5 justify-between">
-              <p className="flex-1">{list.title}</p>
+              <p className="flex-1 border-2 border-transparent">{list.title}</p>
               <span className="flex justify-end gap-4 flex-[0.25_0.25_0%]">
                 <>
                   <PencilSquareIcon
@@ -278,10 +287,10 @@ function List(props: Props) {
                   />
                   <TrashIcon
                     onClick={handleDelete}
-                    className="w-5 text-red-500 hover:text-red-400"
+                    className="w-6 text-red-500 hover:text-red-400"
                   />
                 </>
-                <ChevronDownIcon className="w-5" />
+                <ChevronDownIcon className="w-6" />
               </span>
             </div>
           </div>

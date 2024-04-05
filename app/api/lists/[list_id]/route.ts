@@ -17,9 +17,9 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { list_id: string } }
 ) {
-  const listId = parseInt(params.id);
+  const listId = parseInt(params.list_id);
 
   const result = await deleteList(listId);
 

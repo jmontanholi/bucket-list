@@ -1,4 +1,3 @@
-// app/api/lists/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createItem, getItems } from "@/app/(controllers)/items";
 
