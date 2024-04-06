@@ -1,47 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bucket List
 
-## Getting Started
+### Video Demo: URL
 
-First, run the development server:
+### Description:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+#### This project consists of a bucket list that generates your list items for you with a suggestion from an external third-part API.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### The user have the option to create his account, create lists and add items to his lists. He will then be able to update or delete both lists and items as desired.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### The authentication system is all based on Auth0 integration and it's database and its deployment is on Vercel.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Technologies and resources used:
 
-## Learn More
+- ### Nextjs
+- ### React
+- ### SASS
+- ### Vercel
+- ### Auth0
+- ### dotenv
+- ### Kysely
+- ### Postgresql
+- ### bcrypt
+- ### Tailwind
+- ### HeroIcons
 
-To learn more about Next.js, take a look at the following resources:
+## How to start this project locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- ### Clone this repository locally or fork it
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- ### Run `npm install` on the root folder
 
-## Deploy on Vercel
+- ### Create a .env file with the values below (this is just an example with the env variables used here) for more information you can look into [Vercel Storage documentation](https://vercel.com/docs/projects/environment-variables) and [Auth0 quick setup documentation for your case](https://auth0.com/docs/quickstarts)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - <details>
+      <summary>Example</summary>
+      
+      ```
+      AUTH0_BASE_URL=""
+      AUTH0_CLIENT_ID=""
+      AUTH0_CLIENT_SECRET=""
+      AUTH0_ISSUER_BASE_URL=""
+      AUTH0_SECRET=""
+      NX_DAEMON=""
+      POSTGRES_DATABASE=""
+      POSTGRES_PRISMA_URL=""
+      POSTGRES_URL=""
+      POSTGRES_URL_NON_POOLING=""
+      POSTGRES_URL_NO_SSL=""
+      POSTGRES_USER=""
+      TURBO_REMOTE_ONLY=""
+      TURBO_RUN_SUMMARY=""
+      VERCEL=""
+      VERCEL_ENV="development"
+      VERCEL_GIT_COMMIT_AUTHOR_LOGIN=""
+      VERCEL_GIT_COMMIT_AUTHOR_NAME=""
+      VERCEL_GIT_COMMIT_MESSAGE=""
+      VERCEL_GIT_COMMIT_REF=""
+      VERCEL_GIT_COMMIT_SHA=""
+      VERCEL_GIT_PREVIOUS_SHA=""
+      VERCEL_GIT_PROVIDER=""
+      VERCEL_GIT_PULL_REQUEST_ID=""
+      VERCEL_GIT_REPO_ID=""
+      VERCEL_GIT_REPO_OWNER=""
+      VERCEL_GIT_REPO_SLUG=""
+      VERCEL_URL=""
+      NINJA_API_KEY=""
+      ```
+    </details>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- ### You will also have to create a database, create the tables and connect to it to be able to run this project as it does not have a local database. The database details can be found in the 'create.sql' file
 
-## Connect locally to database
+- ### To run it locally just do `npm run dev`
 
-```psql "postgresql://username:password@host:port/verceldb?options=project%3D<endpoint>"```
+## Connect locally to database to debug or do changes manually
 
-Where you can just copy vercel default connection to PSQL and then change the end to have ```options=project%3D``` and paste the endpoint that is available in the database page
+`psql "postgresql://username:password@host:port/verceldb?options=project%3D<endpoint>"`
 
-```psql "postgres://default:********@ep-shrill-dew-a4jcxcna.us-east-1.aws.neon.tech:5432/verceldb?options=project%3Dep-shrill-dew-a4jcxcna"```
+Where you can just copy vercel default connection to PSQL and then change the end to have `options=project%3D` and paste the endpoint that is available in the database page
+
+### Example:
+
+`psql "postgres://default:********@ep-shrill-dew-a4jcxcna.us-east-1.aws.neon.tech:5432/verceldb?options=project%3Dep-shrill-dew-a4jcxcna"`
 
 For more information see:
 https://github.com/vercel/examples/issues/697

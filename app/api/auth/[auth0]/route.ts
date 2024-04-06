@@ -4,15 +4,16 @@ import {
   AfterCallbackAppRoute,
 } from "@auth0/nextjs-auth0";
 import { NextResponse } from "next/server";
-import { userExists, createUser } from "@/app/lib/actions";
+import { userExists, createUser } from "@/app/(controllers)/users";
 
 const afterCallback: AfterCallbackAppRoute = async (req, session) => {
   const { sub, nickname, email } = session.user;
 
-  const exists = await userExists(sub);
+  const user = { id: sub, username: nickname, email: email };
+  const exists = await userExists(user);
 
   if (!exists) {
-    createUser({ id: sub, username: nickname, email: email });
+    createUser(user);
   }
 
   return session;
