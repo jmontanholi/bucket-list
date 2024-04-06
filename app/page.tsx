@@ -18,7 +18,7 @@ export default function Home() {
           just need to click below!
         </p>
         <Link
-          href="/sign-up"
+          href="/api/auth/login"
           className="w-32 text-center text-orange-600 bg-orange-100 py-2 px-5 rounded-md transition duration-250 border-2 border-transparent hover:border-orange-600"
         >
           Sign Up

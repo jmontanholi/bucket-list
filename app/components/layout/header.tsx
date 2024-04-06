@@ -28,14 +28,6 @@ function Header({ user }: { user: object | undefined | null }) {
             >
               Dashboard
             </Link>
-            <Link
-              href="/dashboard/user-profile"
-              className={clsx(borderBottomLink, {
-                "border-orange-300": pathname == "/dashboard/user-profile",
-              })}
-            >
-              Profile
-            </Link>
             <Link href="/api/auth/logout" className={backgroundLink}>
               Log Out
             </Link>

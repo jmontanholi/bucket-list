@@ -8,21 +8,32 @@
 
 #### The user have the option to create his account, create lists and add items to his lists. He will then be able to update or delete both lists and items as desired.
 
-#### The authentication system is all based on Auth0 integration and it's database and its deployment is on Vercel.
+#### The authentication system is all based on Auth0 integration and it's database and its deployment is on Vercel, I chose this first because I need to learn Auth0, and starting a new project with it is, in my opinion, much better for learning than trying to integrate it into an existing project. I chose Vercel for database and deployment because of its ease to integrate with Next.js
+
+#### I've chosen to use Next.js with Typescript as I wanted to explore a new technology that allowed me to learn multiple things at a time, I did not work previously with TypeScript, so I also thought it to be a good opportunity to start familiarizing myself with such technology. I also chose to use TypeScript as it provides me with a safety device that allows me to use my functions and variables seamlessly without having to worry if I am passing the right parameters or not.
+
+#### I've created a controllers folder where I can have my main functions regarding each of my database tables functions, and then I can use those as actions directly in a server component or as functions in an API route.
+
+#### Almost all styling is made using Tailwind, since it is easy to use and a lot of roles expect experience working with it, the exceptions use modular SCSS files, as it is easier to keep track of and also allow me to reuse classes names.
+
+#### The folder structure follows what Next.js suggests and it uses its latest APP Router structure, where basically every page.tsx is a main file for a route defined by the folder in which this file is found, for example, app/dashboard/page.tsx is the main page representing the /dashboard route in the URL of the website. And the folders that contain a square bracket are for dynamic routes, so in the API for example we have lists/[list_id] which represent something like lists/1 for a post call. The folders with a parenthesis represent folders for utilities, and should not be represented as URL paths by Next.js
+
+#### The database table structure has been designed to accomodate more than was put in place (basically a social media for bucket lists). But for the scope of this project it will not be explored further, anyone that might find this public repository is more than welcome to utilize it.
 
 ## Technologies and resources used:
 
-- ### Nextjs
-- ### React
-- ### SASS
-- ### Vercel
-- ### Auth0
-- ### dotenv
-- ### Kysely
-- ### Postgresql
-- ### bcrypt
-- ### Tailwind
-- ### HeroIcons
+- #### Nextjs
+- #### React
+- #### TypeScript
+- #### SASS
+- #### Vercel
+- #### Auth0
+- #### dotenv
+- #### Kysely
+- #### Postgresql
+- #### bcrypt
+- #### Tailwind
+- #### HeroIcons
 
 ## How to start this project locally
 
