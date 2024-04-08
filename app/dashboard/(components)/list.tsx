@@ -120,6 +120,7 @@ function List(props: Props) {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store",
       });
 
       const randomIdea = await responseOne.json();
